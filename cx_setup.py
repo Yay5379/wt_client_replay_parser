@@ -2,7 +2,7 @@ import os.path
 import sys
 from cx_Freeze import setup, Executable
 
-src_path = "src/"
+src_path = "wt_client_replay_parser/src/"
 packages = ["multiprocessing"]
 includes = []
 excludes = ["unittest", "pydoc", "construct.examples", "bz2", "lib2to3", "test", "tkinter"]
@@ -14,7 +14,8 @@ zip_include_packages = ["collections", "construct", "ctypes", "encodings", "json
 
 
 wrpl_unpacker = Executable(
-    script=os.path.join(src_path, "wrpl_unpacker.py"),
+    script=os.path.join(src_path, "wrpl_unpacker.py")
+)
 
 setup(
     name="wt_client_replay_parser",
@@ -25,3 +26,4 @@ setup(
                            "packages": packages, "zip_include_packages": zip_include_packages,
                            "path": sys.path + [src_path]}},
     executables=[wrpl_unpacker]
+)

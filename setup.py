@@ -7,5 +7,5 @@ setup(
     url='https://github.com/Yay5379/wt_client_replay_parser',
     package_dir={'': 'src'},
     packages=find_packages(where='src'),
-    package_data={'': ['formats/blk.lark']},
+    package_data={'wt_client_replay_parser': ['formats/blk.lark']},
 )
