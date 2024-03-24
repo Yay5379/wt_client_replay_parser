@@ -12,9 +12,12 @@ zip_include_packages = ["collections", "construct", "ctypes", "encodings", "json
                         "jsondiff", "requests", "chardet", "idna", "urllib3", "email", "http", "certifi", "multiprocessing",
                         "multiprocessing-logging", "lark", "blk"]
 
-
 wrpl_unpacker = Executable(
     script=os.path.join(src_path, "wrpl_unpacker.py")
+)
+
+parse_datablocks = Executable(
+    script=os.path.join(src_path, "formats/parse_datablocks.py")
 )
 
 setup(
@@ -25,5 +28,5 @@ setup(
     options={"build_exe": {"includes": includes, "excludes": excludes, "include_files": includefiles,
                            "packages": packages, "zip_include_packages": zip_include_packages,
                            "path": sys.path + [src_path]}},
-    executables=[wrpl_unpacker]
+    executables=[wrpl_unpacker, parse_datablocks]
 )
