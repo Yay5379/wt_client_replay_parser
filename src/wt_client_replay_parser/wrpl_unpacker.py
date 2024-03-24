@@ -59,16 +59,16 @@ def main():
     out_path = out_dir / 'wrplu.bin'
     out_path.write_bytes(parsed.wrplu)
 
-    out_path = out_dir / 'info.json'
-    info = {
-        'difficulty': int(parsed.header.difficulty),
-        'session_type': int(parsed.header.session_type),
-        'battle_class': parsed.header.battle_class,
-        'session_id': parsed.header.session_id,
-        'start_time': parsed.header.start_time,
-    }
+    out_path = out_dir / 'info.blk'
+    info=(
+        f'difficulty:i={int(parsed.header.difficulty)}\n'
+        f'session_type:i={int(parsed.header.session_type)}\n'
+        f'battle_class:t="{parsed.header.battle_class}"\n'
+        f'session_id:t="{parsed.header.session_id}"\n'
+        f'start_time:t="{parsed.header.start_time}"'
+    )
     with create_text(out_path) as ostream:
-        json.dump(info, ostream, indent=2)
+        print(info, file=ostream)
     
     parse_datablocks(f'{out_dir}/wrplu.bin')
     data = parse_replay(f'{out_dir}/wrplu.bin')
