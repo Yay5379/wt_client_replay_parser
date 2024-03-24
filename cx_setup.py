@@ -8,8 +8,8 @@ includes = []
 excludes = ["unittest", "pydoc", "construct.examples", "bz2", "lib2to3", "test", "tkinter", "email"]
 includefiles = []
 zip_include_packages = ["collections", "construct", "ctypes", "encodings", "json", "logging", "importlib", "formats",
-                        "zstandard", "xml", "urllib", "distutils", "click", "pkg_resources", "colorama", "bencodepy",
-                        "jsondiff", "requests", "chardet", "idna", "urllib3", "http", "certifi", "multiprocessing",
+                        "zstandard", "distutils", "click", "pkg_resources", "colorama", "bencodepy",
+                        "jsondiff", "chardet", "idna" "multiprocessing",
                         "multiprocessing-logging", "blk"]
 
 wrpl_unpacker = Executable(
