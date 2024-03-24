@@ -1,6 +1,0 @@
-[flake8]
-max-line-length = 100
-exclude = tests/*
-max-complexity = 18
-extend-ignore = E501
-select = C,E,F,W,B,B950
