@@ -7,8 +7,8 @@ build_options = {'packages': [], 'excludes': []}
 base = 'console'
 
 executables = [
-    Executable('wrpl_unpacker.py', base=base),
-    Executable('formats/parse_datablocks.py', base=base)
+    Executable('src/wrpl_unpacker.py', base=base),
+    Executable('src/formats/parse_datablocks.py', base=base)
 ]
 
 setup(name='wt_client_replay_parser',
