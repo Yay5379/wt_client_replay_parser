@@ -1,21 +1,32 @@
+import os.path
+import sys
 from cx_Freeze import setup, Executable
 
-# Dependencies are automatically detected, but it might need
-# fine tuning.
-build_options = {'packages': [], 'excludes': ["unittest", "pydoc", "construct.examples", "bz2", "lib2to3", "test", "tkinter", "email"],
-                 'includefiles': ["src/wt_client_replay_parser/formats/parse_datablocks.py", "src/wt_client_replay_parser/formats/parse_replay.py"]}
+src_path = "src/wt_client_replay_parser/"
+packages = ["multiprocessing"]
+includes = []
+excludes = ["unittest", "pydoc", "construct.examples", "bz2", "lib2to3", "test", "tkinter", "email"]
+includefiles = []
+zip_include_packages = ["collections", "construct", "ctypes", "encodings", "json", "logging", "importlib", "formats",
+                        "zstandard", "xml", "urllib", "distutils", "click", "pkg_resources", "colorama", "bencodepy",
+                        "jsondiff", "requests", "chardet", "idna", "urllib3", "http", "certifi", "multiprocessing",
+                        "multiprocessing-logging", "blk"]
 
-base = 'console'
+wrpl_unpacker = Executable(
+    script=os.path.join(src_path, "wrpl_unpacker.py")
+)
 
-executables = [
-    Executable('src/wt_client_replay_parser/wrpl_unpacker.py', base=base),
-    Executable('src/wt_client_replay_parser/formats/parse_datablocks.py', base=base)
-]
+parse_datablocks = Executable(
+    script=os.path.join(src_path, "formats/parse_datablocks.py")
+)
 
-setup(name='wt_client_replay_parser',
-      version = '1.0',
-      author = 'Yay5379',
-      url = 'https://github.com/Yay5379/wt_client_replay_parser',
-      description = 'War Thunder client replay data extraction tool',
-      options = {'build_exe': build_options},
-      executables = executables)
+setup(
+    name="wt_client_replay_parser",
+    author='Yay5379',
+    description="War Thunder client replay data extraction tool",
+    url="https://github.com/Yay5379/wt_client_replay_parser",
+    options={"build_exe": {"includes": includes, "excludes": excludes, "include_files": includefiles,
+                           "packages": packages, "zip_include_packages": zip_include_packages,
+                           "path": sys.path + [src_path]}},
+    executables=[wrpl_unpacker, parse_datablocks]
+)
