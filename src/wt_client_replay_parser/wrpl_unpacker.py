@@ -61,11 +61,21 @@ def main():
 
     out_path = out_dir / 'info.blk'
     info=(
+        f'wrpl_version:i={parsed.header.version}\n'
+        f'level:t="{parsed.header.level}"\n'
+        f'levelSettings:t="{parsed.header.level_settings}"\n'
+        f'battleType:t="{parsed.header.battle_type}"\n'
+        f'environment:t="{parsed.header.environment}"\n'
+        f'visibility:t="{parsed.header.visibility}"\n'
         f'difficulty:i={int(parsed.header.difficulty)}\n'
-        f'session_type:i={int(parsed.header.session_type)}\n'
-        f'battle_class:t="{parsed.header.battle_class}"\n'
-        f'session_id:t="{parsed.header.session_id}"\n'
-        f'start_time:t="{parsed.header.start_time}"'
+        f'sessionType:i={int(parsed.header.session_type)}\n'
+        f'sessionId:t="{parsed.header.session_id}"\n'
+        f'locName:t="{parsed.header.loc_name}"\n'
+        f'startTime:t="{parsed.header.start_time}"\n'
+        f'timeLimit:i={parsed.header.time_limit}\n'
+        f'scoreLimit:i={parsed.header.score_limit}\n'
+        f'battleClass:t="{parsed.header.battle_class}"\n'
+        f'battleKillStreak:t="{parsed.header.battle_kill_streak}"'
     )
     with create_text(out_path) as ostream:
         print(info, file=ostream)
