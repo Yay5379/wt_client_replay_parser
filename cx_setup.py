@@ -2,7 +2,7 @@ from cx_Freeze import setup, Executable
 
 # Dependencies are automatically detected, but it might need
 # fine tuning.
-build_options = {'packages': [], 'excludes': []}
+build_options = {'packages': [], 'excludes': ["unittest", "pydoc", "construct.examples", "bz2", "lib2to3", "test", "tkinter"]}
 
 base = 'console'
 
