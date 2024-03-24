@@ -2,7 +2,8 @@ from cx_Freeze import setup, Executable
 
 # Dependencies are automatically detected, but it might need
 # fine tuning.
-build_options = {'packages': [], 'excludes': ["unittest", "pydoc", "construct.examples", "bz2", "lib2to3", "test", "tkinter", "email"], 'includes': ["src/wt_client_replay_parser/formats"]}
+build_options = {'packages': [], 'excludes': ["unittest", "pydoc", "construct.examples", "bz2", "lib2to3", "test", "tkinter", "email"],
+                 'includefiles': ["src/wt_client_replay_parser/formats/parse_datablocks.py", "src/wt_client_replay_parser/formats/parse_replay.py"]}
 
 base = 'console'
 
