@@ -26,7 +26,7 @@ def append_block(name:str, id:int, path) -> t.TextIO:
 def serialize_text(root:Section, ostream:t.TextIO, data:str):
     if root is None:
         print(data, file=ostream)
-    elif data is 'append':
+    elif data == 'append':
         print(f'\n', file=ostream)
         txt.serialize(root, ostream, dialect=txt.StrictDialect)
     else:
@@ -86,9 +86,9 @@ def parse_datablocks(path:str):
                     print(f"parsing {vehicle}({unit_id})")
                         
                     unit_data=(
-                    f'unit_id:i={unit_id}\n'
+                    f'unitId:i={unit_id}\n'
                     f'vehicle:t="{vehicle}"\n'
-                    f'weapon_preset:t="{weapon_preset}"\n'
+                    f'weaponPreset:t="{weapon_preset}"\n'
                     f'skin:t="{skin}"'
                     )
 
@@ -137,9 +137,9 @@ def parse_datablocks(path:str):
                     print(f"parsing {vehicle}({unit_id})")
 
                     unit_data=(
-                    f'unit_id:i={unit_id}\n'
+                    f'unitId:i={unit_id}\n'
                     f'vehicle:t="{vehicle}"\n'
-                    f'weapon_preset:t="{weapon_preset}"\n'
+                    f'weaponPreset:t="{weapon_preset}"\n'
                     f'skin:t="{skin}"'
                     )
 
