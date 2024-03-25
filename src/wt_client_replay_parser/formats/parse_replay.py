@@ -20,7 +20,7 @@ def parse_replay(file):
                     vehicles.append(
                     {
                         "vehicle": v,
-                        "weapon": w,
+                        "weaponPreset": w,
                         "skin" : s,
                         "numAppearances": len([u for u in units if u["unit_id"] == uid and u["vehicle"] == v])
                     }
