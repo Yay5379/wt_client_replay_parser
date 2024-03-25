@@ -88,7 +88,7 @@ def parse_datablocks(path:str):
                     unit_data=(
                     f'unitId:i={unit_id}\n'
                     f'vehicle:t="{vehicle}"\n'
-                    f'weaponPreset:t="{weapon_preset}"\n'
+                    f'weapon:t="{weapon_preset}"\n'
                     f'skin:t="{skin}"'
                     )
 
@@ -139,7 +139,7 @@ def parse_datablocks(path:str):
                     unit_data=(
                     f'unitId:i={unit_id}\n'
                     f'vehicle:t="{vehicle}"\n'
-                    f'weaponPreset:t="{weapon_preset}"\n'
+                    f'weapon:t="{weapon_preset}"\n'
                     f'skin:t="{skin}"'
                     )
 
