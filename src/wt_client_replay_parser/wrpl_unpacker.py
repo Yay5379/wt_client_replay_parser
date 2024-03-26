@@ -58,6 +58,7 @@ def main():
 
     out_path = out_dir / 'wrplu.bin'
     out_path.write_bytes(parsed.wrplu)
+    parse_datablocks(out_path)
 
     out_path = out_dir / 'info.blk'
     info=(
@@ -80,7 +81,6 @@ def main():
     with create_text(out_path) as ostream:
         print(info, file=ostream)
     
-    parse_datablocks(f'{out_dir}/wrplu.bin')
     data = parse_replay(f'{out_dir}/wrplu.bin')
     with create_text(f'{out_dir}/units.json') as ostream:
         json.dump(data, ostream, indent=2)

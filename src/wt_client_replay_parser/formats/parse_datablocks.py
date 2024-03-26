@@ -82,15 +82,16 @@ def parse_datablocks(path:str):
                 if len(skin) != skin_len and skin != "default":
                     skin = skin.rstrip(skin[-1])
 
+                print(f"parsing {vehicle}({unit_id})")
+
+                unit_data=(
+                f'unitId:i={unit_id}\n'
+                f'vehicle:t="{vehicle}"\n'
+                f'weaponPreset:t="{weapon_preset}"\n'
+                f'skin:t="{skin}"'
+                )
+
                 if datablock_magic == 1:
-                    print(f"parsing {vehicle}({unit_id})")
-                        
-                    unit_data=(
-                    f'unitId:i={unit_id}\n'
-                    f'vehicle:t="{vehicle}"\n'
-                    f'weaponPreset:t="{weapon_preset}"\n'
-                    f'skin:t="{skin}"'
-                    )
 
                     datablock_reader = BytesIO(replay[m.end() + vehicle_len + weapon_preset_len + skin_len + 5:m.end() + 4096])
 
@@ -105,7 +106,7 @@ def parse_datablocks(path:str):
                                 serialize_text(root, ostream, unit_data)
                         except:
                             pass
-                    
+
                     datablock2_pattern = re.compile(b'\x61\x74\x74\x61\x63\x68\x61\x62\x6c\x65') #'attachable'
 
                     for m in datablock2_pattern.finditer(datablock_stream):
@@ -114,7 +115,6 @@ def parse_datablocks(path:str):
 
                         if has_preset == 7:
                             datablock2 = BytesIO(datablock_stream[m.start() - 14:m.start() + 2048])
-
                             with datablock2 as istream:
                                 try:
                                     root = bin.compose_fat(istream)
@@ -134,15 +134,6 @@ def parse_datablocks(path:str):
                                     pass
 
                 else:
-                    print(f"parsing {vehicle}({unit_id})")
-
-                    unit_data=(
-                    f'unitId:i={unit_id}\n'
-                    f'vehicle:t="{vehicle}"\n'
-                    f'weaponPreset:t="{weapon_preset}"\n'
-                    f'skin:t="{skin}"'
-                    )
-
                     with create_text(vehicle, unit_id, path) as ostream:
                         serialize_text(None, ostream, unit_data)
         except:
