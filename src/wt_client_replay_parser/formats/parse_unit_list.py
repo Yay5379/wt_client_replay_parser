@@ -3,7 +3,7 @@ import re
 import sys
 import json
 
-def parse_replay(file):
+def parse_replay_unit_list(file):
 
     units = []
     print(f"parsing {file}")
@@ -112,7 +112,7 @@ def main():
 
     print(f"parsing replay in {file}")
 
-    data = parse_replay(file)
+    data = parse_replay_unit_list(file)
 
     folder_name = os.path.basename(file)
     file_path = os.getcwd()

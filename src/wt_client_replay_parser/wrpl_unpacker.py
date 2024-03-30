@@ -1,24 +1,16 @@
 import argparse
-import json
 from pathlib import Path
+import json
+import zlib
 import typing as t
 import os
 import sys
 import construct as ct
 from blk.types import Section
 import blk.text as txt
-try:
-    from formats.wrpl_parser import WRPLCliFile
-except ImportError:
-    from formats.wrpl_parser import WRPLCliFile
-try:
-    from formats.parse_datablocks import parse_datablocks
-except ImportError:
-    from formats.parse_datablocks import parse_datablocks
-try:
-    from formats.parse_replay import parse_replay
-except ImportError:
-    from formats.parse_replay import parse_replay
+from formats.wrpl_parser import WRPLCliFile
+from formats.parse_datablocks import parse_datablocks
+from formats.parse_unit_list import parse_replay_unit_list
 
 def serialize_text(root: Section, ostream: t.TextIO):
     txt.serialize(root, ostream, dialect=txt.StrictDialect)
@@ -57,8 +49,13 @@ def main():
             serialize_text(section, ostream)
 
     out_path = out_dir / 'wrplu.bin'
-    out_path.write_bytes(parsed.wrplu)
+    out_path.write_bytes(zlib.decompress(parsed.wrplu))
     parse_datablocks(out_path)
+
+    data = parse_replay_unit_list(out_path)
+
+    with create_text(f'{out_dir}/units.json') as ostream:
+        json.dump(data, ostream, indent=2)
 
     out_path = out_dir / 'info.blk'
     info=(
@@ -81,10 +78,6 @@ def main():
     with create_text(out_path) as ostream:
         print(info, file=ostream)
     
-    data = parse_replay(f'{out_dir}/wrplu.bin')
-    with create_text(f'{out_dir}/units.json') as ostream:
-        json.dump(data, ostream, indent=2)
-
     print(f'{replay.name} => {out_dir}')
 
     return 0

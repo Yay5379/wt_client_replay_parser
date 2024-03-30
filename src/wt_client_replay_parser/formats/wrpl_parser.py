@@ -67,17 +67,11 @@ def FatBlockStream(sz: t.Union[int, callable, None] = None) -> ct.Construct:
     con = ct.GreedyBytes if sz is None else ct.Bytes(sz)
     return ct.RestreamData(con, bin.Fat)
 
-
-def ZlibStream(sz: t.Union[int, callable, None] = None):
-    con = ct.GreedyBytes if sz is None else ct.Bytes(sz)
-    return ct.RestreamData(con, ct.Compressed(con, 'zlib'))
-
-
 WRPLCliFile = ct.Struct(
     'header' / Header,
     ct.Bytes(2),
     'm_set' / FatBlockStream(this.header.m_set_size),
     'wrplu_offset' / ct.Tell,
-    'wrplu' / ZlibStream(this.header.rez_offset - this.wrplu_offset),
+    'wrplu' / ct.Bytes(this.header.rez_offset - this.wrplu_offset),
     'rez' / bin.Fat,
 )
