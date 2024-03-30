@@ -7,6 +7,15 @@ import typing as t
 from io import BytesIO
 from blk.types import Section
 
+def duplicate_check(file:str, string:str):
+    with open(file) as f:
+        stream = f.read()
+    check = stream.find(string)
+    if check != -1:
+        return True
+    else:
+        return False
+
 # creats a datablock (.blk) file
 def create_text(name:str, id:int, path) -> t.TextIO:
     file_path = os.path.dirname(path)
@@ -17,10 +26,15 @@ def create_text(name:str, id:int, path) -> t.TextIO:
     else:
         return open(f'{file_path}/units/{name}({id}).blk', 'x')
     
-# appends more data to a datablock (.blk) file    
-def append_block(name:str, id:int, path) -> t.TextIO:
+# appends more data to a datablock (.blk) file
+def append_block(name:str, id:int, path, check_string=None) -> t.TextIO:
     file_path = os.path.dirname(path)
-    return open(f'{file_path}/units/{name}({id}).blk', 'a')
+    if check_string is None:
+        return open(f'{file_path}/units/{name}({id}).blk', 'a')
+    elif duplicate_check(f'{file_path}/units/{name}({id}).blk', check_string) is False:
+        return open(f'{file_path}/units/{name}({id}).blk', 'a')
+    else:
+        pass
     
 # writes data to a file
 def serialize_text(root:Section, ostream:t.TextIO, data:str):
@@ -118,7 +132,7 @@ def parse_datablocks(path:str):
                             with datablock2 as istream:
                                 try:
                                     root = bin.compose_fat(istream)
-                                    with append_block(vehicle, unit_id, path) as ostream:
+                                    with append_block(vehicle, unit_id, path, 'attachable') as ostream:
                                         serialize_text(root, ostream, 'append')
                                 except:
                                     pass
@@ -128,7 +142,7 @@ def parse_datablocks(path:str):
                             with datablock2 as istream:
                                 try:
                                     root = bin.compose_fat(istream)
-                                    with append_block(vehicle, unit_id, path) as ostream:
+                                    with append_block(vehicle, unit_id, path, 'attachable') as ostream:
                                         serialize_text(root, ostream, 'append')
                                 except:
                                     pass
