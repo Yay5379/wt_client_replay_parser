@@ -10,9 +10,6 @@ multiprocessing-logging@https://github.com/jruere/multiprocessing-logging/archiv
 # for command line parsing
 click==7.1.2
 
-# for yup file parsing
-bencode.py==4.0.0
-
 # for http requests
 requests==2.25.1
 
