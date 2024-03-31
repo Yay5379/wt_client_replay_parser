@@ -5,7 +5,7 @@ from cx_Freeze import setup, Executable
 src_path = "src/wt_client_replay_parser/"
 packages = ["multiprocessing"]
 includes = []
-excludes = ["unittest", "pydoc", "construct.examples", "bz2", "lib2to3", "test", "tkinter", "email", "libcrypto"]
+excludes = ["unittest", "pydoc", "construct.examples", "bz2", "lib2to3", "test", "tkinter", "email", "http", "xml", "xmlrpc"]
 includefiles = []
 zip_include_packages = ["collections", "construct", "ctypes", "encodings", "json", "logging", "importlib", "formats",
                         "distutils", "click", "pkg_resources", "bencodepy", "chardet", "zlib", "zstandard",
