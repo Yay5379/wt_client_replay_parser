@@ -28,7 +28,7 @@ jobs:
     - name: build release
       run: python cx_setup.py build
     - name: upload artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: wt_client_replay_parser_${{ matrix.os }}
         path: build/
