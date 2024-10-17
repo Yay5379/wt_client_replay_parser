@@ -64,7 +64,7 @@ def main():
         f'serverPlayerId:i={parsed.header.srv_id}\n'
         f'sessionType:i={int(parsed.header.session_type)}\n'
         f'sessionId:i={parsed.header.session_id}\n'
-        f'weatherSeed:i={parsed.header.weather_see}\n'
+        f'weatherSeed:i={parsed.header.weather_seed}\n'
         f'localPlayerCountry:i={int(parsed.header.local_player_country)}\n'
         f'locName:t="{parsed.header.loc_name}"\n'
         f'startTime:i={parsed.header.start_time}\n'
