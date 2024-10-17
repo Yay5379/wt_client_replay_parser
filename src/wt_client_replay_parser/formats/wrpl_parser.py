@@ -28,6 +28,19 @@ class SessionType(enum.IntEnum):
     USER_MISSION = 0x01  # пользовательские миссии
 
 
+class LocalPlayerCountry(enum.IntEnum):
+    COUNTRY_USA = 0x01
+    COUNTRY_GERMANY = 0x02
+    COUNTRY_USSR = 0x03
+    COUNTRY_BRITAIN = 0x04
+    COUNTRY_JAPAN = 0x05
+    COUNTRY_CHINA = 0x06
+    COUNTRY_ITALY = 0x07
+    COUNTRY_FRANCE = 0x08
+    COUNTRY_SWEEDEN = 0x09
+    COUNTRY_ISRAEL = 0x0A
+
+
 DifficultyCon = ct.ExprAdapter(ct.Bitwise(ct.FocusedSeq(
     'difficulty',
     'unk_nib' / ct.BitsInteger(4),
@@ -35,6 +48,7 @@ DifficultyCon = ct.ExprAdapter(ct.Bitwise(ct.FocusedSeq(
     lambda obj, context: Difficulty(obj),
     no_encoder
 )
+
 
 Header = ct.Struct(
     'magic' / ct.Const(bytes.fromhex('e5ac0010')),
@@ -46,18 +60,25 @@ Header = ct.Struct(
     'visibility' / StringField(32),  # good
     'rez_offset' / ct.Int32ul,
     'difficulty' / DifficultyCon,
-    'unk_35' / ct.Bytes(35),
-    'session_type' / ct.Byte,  # меня интересует только RANDOM_BATTLE для танков
-    'unk_3' / ct.Bytes(3),
+    'unk_4' / ct.Bytes(4),
+    'srv_id' / ct.Int8ul,
+    'unk_24' / ct.Bytes(24),
+    'session_type' / ct.Int32ul,  # меня интересует только RANDOM_BATTLE для танков
     'session_id' / ct.Int64ul,
-    'unk_8' / ct.Bytes(8),
+    'unk_4' / ct.Bytes(4),
+    'weather_seed' / ct.Int32ul,
     'm_set_size' / ct.Int32ul,
-    'unk_28' / ct.Bytes(28),
+    'unk_23' / ct.Bytes(23),
+    'local_player_country' / ct.Int8ul,
+    'unk_4' / ct.Bytes(4),
     'loc_name' / StringField(128),  # missions/_Dom;stalingrad_factory/name
     'start_time' / ct.Int32ul,
     'time_limit' / ct.Int32ul,
     'score_limit' / ct.Int32ul,
-    'unk_48' / ct.Bytes(48),
+    'unk_12' / ct.Bytes(12),
+    'local_player_id' / ct.Int32ul,
+    'unk_28' / ct.Bytes(28),
+    'gm' / ct.Int32ul,
     'battle_class' / StringField(128),  # air_ground_Dom
     'battle_kill_streak' / StringField(128),  # killStreaksAircraftOrHelicopter_1
 )
@@ -66,6 +87,7 @@ Header = ct.Struct(
 def FatBlockStream(sz: t.Union[int, callable, None] = None) -> ct.Construct:
     con = ct.GreedyBytes if sz is None else ct.Bytes(sz)
     return ct.RestreamData(con, bin.Fat)
+
 
 WRPLCliFile = ct.Struct(
     'header' / Header,
