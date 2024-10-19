@@ -13,6 +13,11 @@ def StringField(sz: t.Union[int, callable]) -> ct.Construct:
     return ct.FixedSized(sz, ct.CString('ascii'))
 
 
+def Int96ul():
+    """Unsigned, little endian 96-bit integer"""
+    return ct.BytesInteger(12, signed=False, swapped=True)
+
+
 class Difficulty(enum.IntEnum):
     ARCADE = 0b0000
     REALISTIC = 0b0101
@@ -60,22 +65,21 @@ Header = ct.Struct(
     'visibility' / StringField(32),  # good
     'rez_offset' / ct.Int32ul,
     'difficulty' / DifficultyCon,
-    'unk_4' / ct.Bytes(4),
+    'unk_3' / ct.Bytes(3),
     'srv_id' / ct.Int8ul,
-    'unk_24' / ct.Bytes(24),
+    'unk_31' / ct.Bytes(31),
     'session_type' / ct.Int32ul,  # меня интересует только RANDOM_BATTLE для танков
-    'session_id' / ct.Int64ul,
-    'unk_4' / ct.Bytes(4),
+    'session_id' / ct.singleton(Int96ul),
     'weather_seed' / ct.Int32ul,
-    'm_set_size' / ct.Int32ul,
-    'unk_23' / ct.Bytes(23),
+    'm_set_size' / ct.Int64ul,
+    'unk_19' / ct.Bytes(19),
     'local_player_country' / ct.Int8ul,
     'unk_4' / ct.Bytes(4),
     'loc_name' / StringField(128),  # missions/_Dom;stalingrad_factory/name
     'start_time' / ct.Int32ul,
     'time_limit' / ct.Int32ul,
-    'score_limit' / ct.Int32ul,
-    'unk_12' / ct.Bytes(12),
+    'score_limit' / ct.Int64ul,
+    'unk_8' / ct.Bytes(8),
     'local_player_id' / ct.Int32ul,
     'unk_28' / ct.Bytes(28),
     'gm' / ct.Int32ul,

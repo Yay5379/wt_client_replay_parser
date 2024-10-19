@@ -23,7 +23,7 @@ def main():
     parser.add_argument('replay', type=argparse.FileType('rb'), help='path to WRPL file')
     parser.add_argument('-o', dest='out_dir', type=Path, default=Path.cwd(),
                         help='output directory %(default)s.')
-    parser.add_argument('dump', choices=[bool], default=False, required=False, help='create file size and offset dump')
+    parser.add_argument('-d', dest='dump', choices=["True", "False"], default=False, help='create file size and offset dump')
     ns = parser.parse_args()
     replay = ns.replay
     replay_path = Path(replay.name)
