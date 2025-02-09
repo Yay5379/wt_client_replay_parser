@@ -13,11 +13,6 @@ def StringField(sz: t.Union[int, callable]) -> ct.Construct:
     return ct.FixedSized(sz, ct.CString('ascii'))
 
 
-def Int96ul():
-    """Unsigned, little endian 96-bit integer"""
-    return ct.BytesInteger(12, signed=False, swapped=True)
-
-
 class Difficulty(enum.IntEnum):
     ARCADE = 0b0000
     REALISTIC = 0b0101
@@ -69,7 +64,9 @@ Header = ct.Struct(
     'srv_id' / ct.Int8ul,
     'unk_31' / ct.Bytes(31),
     'session_type' / ct.Int32ul,  # меня интересует только RANDOM_BATTLE для танков
-    'session_id' / ct.singleton(Int96ul),
+    'session_id' / ct.Int64ul,
+    'server_replay_order_number' / ct.Int16ul,  # the number from the title of the server replay ex: 0001.wrpl. always 0 for client replays
+    'unk_int16' / ct.Int16ul,
     'weather_seed' / ct.Int32ul,
     'm_set_size' / ct.Int64ul,
     'unk_19' / ct.Bytes(19),
@@ -80,7 +77,9 @@ Header = ct.Struct(
     'time_limit' / ct.Int32ul,
     'score_limit' / ct.Int64ul,
     'unk_8' / ct.Bytes(8),
-    'local_player_id' / ct.Int32ul,
+    'local_player_id' / ct.Int8ul,  # always 0 for server replays
+    'unk_2' / ct.Bytes(2),
+    'server_replay_max_players' / ct.Int8ul,  # always 0 for client replays
     'unk_28' / ct.Bytes(28),
     'gm' / ct.Int32ul,
     'battle_class' / StringField(128),  # air_ground_Dom
