@@ -15,6 +15,10 @@ wrpl_unpacker = Executable(
     script=os.path.join(src_path, "wrpl_unpacker.py")
 )
 
+wrpl_unpacker_server = Executable(
+  script=os.path.join(src_path, "wrpl_unpacker_server.py")
+)
+
 parse_datablocks = Executable(
     script=os.path.join(src_path, "formats/parse_datablocks.py")
 )
