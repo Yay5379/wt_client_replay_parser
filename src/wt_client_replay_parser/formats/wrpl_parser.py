@@ -58,7 +58,7 @@ Header = ct.Struct(
     'battle_type' / StringField(128),  # stalingrad_factory_Dom
     'environment' / StringField(128),  # day
     'visibility' / StringField(32),  # good
-    'rez_offset' / ct.Int32ul,
+    'rez_offset' / ct.Int32ul,  # not used for server replays
     'difficulty' / DifficultyCon,
     'unk_3' / ct.Bytes(3),
     'srv_id' / ct.Int8ul,
@@ -79,7 +79,7 @@ Header = ct.Struct(
     'unk_8' / ct.Bytes(8),
     'local_player_id' / ct.Int8ul,  # always 0 for server replays
     'unk_2' / ct.Bytes(2),
-    'server_replay_max_players' / ct.Int8ul,  # always 0 for client replays
+    'unk_Int8ul' / ct.Int8ul,
     'unk_28' / ct.Bytes(28),
     'gm' / ct.Int32ul,
     'battle_class' / StringField(128),  # air_ground_Dom
@@ -99,4 +99,13 @@ WRPLCliFile = ct.Struct(
     'wrplu_offset' / ct.Tell,
     'wrplu' / ct.Bytes(this.header.rez_offset - this.wrplu_offset),
     'rez' / bin.Fat,
+)
+
+
+WRPLServFile = ct.Struct(
+    'header' / Header,
+    ct.bytes(2),
+    'm_set' / FatBlockStream(this.header.m_set_size),
+    'rest_of_file' / ct.Tell,
+    'headless_file' / ct.Bytes(this.rest_of_file),
 )

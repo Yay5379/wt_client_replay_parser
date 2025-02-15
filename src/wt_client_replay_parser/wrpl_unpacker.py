@@ -10,6 +10,7 @@ import blk.text as txt
 from formats.wrpl_parser import WRPLCliFile
 from formats.parse_datablocks import parse_datablocks
 
+
 def serialize_text(root: Section, ostream: t.TextIO):
     txt.serialize(root, ostream, dialect=txt.StrictDialect)
 

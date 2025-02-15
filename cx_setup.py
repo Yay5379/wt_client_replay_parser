@@ -27,5 +27,5 @@ setup(
     options={"build_exe": {"includes": includes, "excludes": excludes, "include_files": includefiles,
                            "packages": packages, "zip_include_packages": zip_include_packages,
                            "path": sys.path + [src_path]}},
-    executables=[wrpl_unpacker, parse_datablocks]
+    executables=[wrpl_unpacker, wrpl_unpacker_server, parse_datablocks]
 )
