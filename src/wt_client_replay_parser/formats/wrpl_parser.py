@@ -80,7 +80,9 @@ Header = ct.Struct(
     'local_player_id' / ct.Int8ul,  # always 0 for server replays
     'unk_2' / ct.Bytes(2),
     'unk_Int8ul' / ct.Int8ul,
-    'unk_28' / ct.Bytes(28),
+    'unk_4' / ct.Bytes(4),
+    'dynamicResult' / ct.Int32sl,
+    'unk_20' / ct.Bytes(20),
     'gm' / ct.Int32ul,
     'battle_class' / StringField(128),  # air_ground_Dom
     'battle_kill_streak' / StringField(128),  # killStreaksAircraftOrHelicopter_1
@@ -104,7 +106,7 @@ WRPLCliFile = ct.Struct(
 
 WRPLServFile = ct.Struct(
     'header' / Header,
-    ct.bytes(2),
+    ct.Bytes(2),
     'm_set' / FatBlockStream(this.header.m_set_size),
     'rest_of_file' / ct.Tell,
     'headless_file' / ct.Bytes(this.rest_of_file),

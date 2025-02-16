@@ -1,6 +1,5 @@
 import argparse
 from pathlib import Path
-import zlib
 import typing as t
 import os
 import sys
@@ -8,7 +7,6 @@ import construct as ct
 from blk.types import Section
 import blk.text as txt
 from formats.wrpl_parser import WRPLServFile
-from formats.parse_datablocks import parse_datablocks
 
 
 def serialize_text(root: Section, ostream: t.TextIO):
@@ -37,15 +35,44 @@ def main():
     
     try:
         parsed = WRPLServFile.parse_stream(replay)
-    except:
+    except ct.ConstructError as e:
         print('error parsing input file {}: {}'.format(replay.name, e), file=sys.stderr)
         return 1
     
-    for name in ('m_set'):
+    for name in ('m_set',):
         section = parsed[name]
         out_path = (out_dir / name).with_suffix('.blk')
         with create_text(out_path) as ostream:
             serialize_text(section, ostream)
+
+    # there is probably a better way to do this idk how and this works so... yeah...
+    out_path = out_dir / 'info.blk'
+
+    info=(
+        f'wrplVersion:i={parsed.header.version}\n'
+        f'level:t="{parsed.header.level}"\n'
+        f'levelSettings:t="{parsed.header.level_settings}"\n'
+        f'battleType:t="{parsed.header.battle_type}"\n'
+        f'environment:t="{parsed.header.environment}"\n'
+        f'visibility:t="{parsed.header.visibility}"\n'
+        f'difficulty:i={parsed.header.difficulty}\n'
+        f'srvId:i={parsed.header.srv_id}\n'
+        f'sessionType:i={parsed.header.session_type}\n'
+        f'sessionId:i={parsed.header.session_id}\n'
+        f'replayNumber:i={parsed.header.server_replay_order_number}\n'
+        f'weatherSeed:i={parsed.header.weather_seed}\n'
+        f'locName:t="{parsed.header.loc_name}"\n'
+        f'startTime:i={parsed.header.start_time}\n'
+        f'timeLimit:i={parsed.header.time_limit}\n'
+        f'scoreLimit:i={parsed.header.score_limit}\n'
+        f'dynamicResult:i={parsed.header.dynamicResult}\n'
+        f'gm:i={parsed.header.gm}\n'
+        f'battleClass:t="{parsed.header.battle_class}"\n'
+        f'battleKillStreak:t="{parsed.header.battle_kill_streak}"'
+    )
+
+    with create_text(out_path) as ostream:
+        print(info, file=ostream)
     
     print(f'{replay.name} => {out_dir}')
 

@@ -54,6 +54,7 @@ def main():
 
     # there is probably a better way to do this idk how and this works so... yeah...
     out_path = out_dir / 'info.blk'
+    
     info=(
         f'wrplVersion:i={parsed.header.version}\n'
         f'level:t="{parsed.header.level}"\n'
@@ -61,20 +62,23 @@ def main():
         f'battleType:t="{parsed.header.battle_type}"\n'
         f'environment:t="{parsed.header.environment}"\n'
         f'visibility:t="{parsed.header.visibility}"\n'
-        f'difficulty:i={int(parsed.header.difficulty)}\n'
+        f'difficulty:i={parsed.header.difficulty}\n'
         f'serverPlayerId:i={parsed.header.srv_id}\n'
-        f'sessionType:i={int(parsed.header.session_type)}\n'
+        f'sessionType:i={parsed.header.session_type}\n'
         f'sessionId:i={parsed.header.session_id}\n'
         f'weatherSeed:i={parsed.header.weather_seed}\n'
-        f'localPlayerCountry:i={int(parsed.header.local_player_country)}\n'
+        f'localPlayerCountry:i={parsed.header.local_player_country}\n'
         f'locName:t="{parsed.header.loc_name}"\n'
         f'startTime:i={parsed.header.start_time}\n'
         f'timeLimit:i={parsed.header.time_limit}\n'
         f'scoreLimit:i={parsed.header.score_limit}\n'
         f'localPlayerNo:i={parsed.header.local_player_id}\n'
+        f'dynamicResult:i={parsed.header.dynamicResult}\n'
+        f'gm:i={parsed.header.gm}\n'
         f'battleClass:t="{parsed.header.battle_class}"\n'
         f'battleKillStreak:t="{parsed.header.battle_kill_streak}"'
     )
+
     with create_text(out_path) as ostream:
         print(info, file=ostream)
     
